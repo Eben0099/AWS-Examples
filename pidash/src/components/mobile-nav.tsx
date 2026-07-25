@@ -45,7 +45,8 @@ export function MobileNav() {
         <div className="fixed inset-0 z-50">
           <button
             type="button"
-            aria-label="Fermer le menu"
+            aria-hidden="true"
+            tabIndex={-1}
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-black/60"
           />

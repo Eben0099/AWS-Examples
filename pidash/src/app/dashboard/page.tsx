@@ -157,7 +157,7 @@ export default function DashboardPage() {
                   <p className="font-mono text-sm text-brass tnum">{g.ggr}</p>
                   <p
                     className={`font-mono text-[0.65rem] uppercase tracking-wide ${
-                      g.status === "live" ? "text-sage-up" : "text-brass-dim"
+                      g.status === "live" ? "text-sage-up" : "text-brass"
                     }`}
                   >
                     {g.status === "live" ? "en salle" : "maintenance"}
@@ -187,7 +187,7 @@ export default function DashboardPage() {
                 </div>
                 <span
                   className={`inline-flex shrink-0 items-center gap-1.5 font-mono text-[0.65rem] uppercase tracking-wide ${
-                    g.status === "live" ? "text-sage-up" : "text-brass-dim"
+                    g.status === "live" ? "text-sage-up" : "text-brass"
                   }`}
                 >
                   <span
@@ -258,7 +258,7 @@ export default function DashboardPage() {
                   <td className="py-3">
                     <span
                       className={`inline-flex items-center gap-1.5 font-mono text-[0.7rem] uppercase tracking-wide ${
-                        g.status === "live" ? "text-sage-up" : "text-brass-dim"
+                        g.status === "live" ? "text-sage-up" : "text-brass"
                       }`}
                     >
                       <span
