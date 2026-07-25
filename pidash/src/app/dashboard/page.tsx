@@ -3,6 +3,7 @@ import {
   GameMixChart,
   RevenueChart,
 } from "@/components/charts";
+import { EngineMonitorCard } from "@/components/engine-monitor-card";
 import { kpis, revenueSeries, topGames } from "@/lib/data";
 
 function euros(n: number) {
@@ -166,6 +167,23 @@ export default function DashboardPage() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* — Supervision des moteurs de jeu (lecture seule, métadonnées) — */}
+      <section>
+        <div className="mb-4 flex items-baseline justify-between">
+          <h2 className="font-display text-lg font-semibold text-parchment">
+            Supervision des moteurs
+          </h2>
+          <span className="font-mono text-[0.7rem] uppercase tracking-widest text-sage/85">
+            Temps réel · rafraîchi 2 s
+          </span>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <EngineMonitorCard engine="roulette" />
+          <EngineMonitorCard engine="keno" />
+          <EngineMonitorCard engine="aviator" />
         </div>
       </section>
 

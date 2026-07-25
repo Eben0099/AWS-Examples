@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Instrument_Sans, Spline_Sans_Mono } from "next/font/google";
+import { StoreProvider } from "@/store/provider";
 import "./globals.css";
 
 // Display : serif à caractère (opsz), pour le wordmark et les chiffres clés.
@@ -36,7 +37,9 @@ export default function RootLayout({
       lang="fr"
       className={`${fraunces.variable} ${instrument.variable} ${splineMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <StoreProvider>{children}</StoreProvider>
+      </body>
     </html>
   );
 }
