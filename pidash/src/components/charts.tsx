@@ -35,7 +35,7 @@ const PARCHMENT = "#ece3cc";
 const CLARET = "#cf6b7c";
 const FELT = "#123a2e";
 const GRID = "rgba(236,227,204,0.07)";
-const TICK = "rgba(127,183,154,0.75)";
+const TICK = "rgba(158,204,178,0.9)";
 
 ChartJS.defaults.color = TICK;
 ChartJS.defaults.font.family =
@@ -98,7 +98,14 @@ export function RevenueChart() {
     plugins: { legend: { display: false }, tooltip },
     scales: numericScales,
   };
-  return <Line data={data} options={options} />;
+  return (
+    <Line
+      data={data}
+      options={options}
+      role="img"
+      aria-label="Courbe du produit brut des jeux par jour sur les 7 derniers jours, culminant samedi."
+    />
+  );
 }
 
 export function BetsByGameChart() {
@@ -121,7 +128,14 @@ export function BetsByGameChart() {
     plugins: { legend: { display: false }, tooltip },
     scales: numericScales,
   };
-  return <Bar data={data} options={options} />;
+  return (
+    <Bar
+      data={data}
+      options={options}
+      role="img"
+      aria-label="Histogramme du volume misé par jeu ; les machines à sous dominent, suivies de la roulette."
+    />
+  );
 }
 
 export function GameMixChart() {
@@ -156,5 +170,12 @@ export function GameMixChart() {
       },
     },
   };
-  return <Doughnut data={data} options={options} />;
+  return (
+    <Doughnut
+      data={data}
+      options={options}
+      role="img"
+      aria-label="Répartition du produit par famille de jeux : machines à sous, tables en direct, poker et paris sportifs."
+    />
+  );
 }

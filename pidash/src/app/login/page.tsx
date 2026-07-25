@@ -64,10 +64,10 @@ function LoginForm() {
           <div className="p-7 sm:p-8">
             {/* Ligne de registre : référence + accès */}
             <div className="flex items-baseline justify-between border-b border-dashed border-ink/25 pb-3">
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-ink/55">
+              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-ink/70">
                 Bulletin d&apos;accès
               </span>
-              <span className="font-mono text-[0.7rem] text-ink/45 tnum">
+              <span className="font-mono text-[0.7rem] text-ink/60 tnum">
                 Nº PIT·001
               </span>
             </div>
@@ -75,7 +75,7 @@ function LoginForm() {
             <h2 className="mt-5 font-display text-2xl font-semibold">
               Accès à la salle
             </h2>
-            <p className="mt-1 text-sm text-ink/60">
+            <p className="mt-1 text-sm text-ink/70">
               Identifiez-vous pour ouvrir le registre.
             </p>
 
@@ -92,7 +92,7 @@ function LoginForm() {
             <div className="mt-6">
               <label
                 htmlFor="email"
-                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/55"
+                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/70"
               >
                 Adresse
               </label>
@@ -111,7 +111,7 @@ function LoginForm() {
             <div className="mt-5">
               <label
                 htmlFor="password"
-                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/55"
+                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/70"
               >
                 Clé
               </label>
@@ -128,7 +128,7 @@ function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.7rem] uppercase tracking-wide text-ink/50 transition hover:text-ink"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.7rem] uppercase tracking-wide text-ink/70 transition hover:text-ink"
                 >
                   {showPassword ? "Masquer" : "Voir"}
                 </button>
@@ -162,7 +162,7 @@ function LoginForm() {
             </button>
 
             {/* Jeton d'essai */}
-            <p className="mt-5 border-t border-dashed border-ink/20 pt-4 text-center text-xs text-ink/55">
+            <p className="mt-5 border-t border-dashed border-ink/20 pt-4 text-center text-xs text-ink/70">
               Jeton d&apos;essai —{" "}
               <span className="font-mono text-ink">admin@pidash.io</span> ·{" "}
               <span className="font-mono text-ink">casino123</span>
@@ -170,7 +170,7 @@ function LoginForm() {
           </div>
         </form>
 
-        <p className="mt-6 text-center font-mono text-[0.7rem] uppercase tracking-widest text-sage/70">
+        <p className="mt-6 text-center font-mono text-[0.7rem] uppercase tracking-widest text-sage">
           Jeu responsable · Réservé aux +18 ans
         </p>
       </div>

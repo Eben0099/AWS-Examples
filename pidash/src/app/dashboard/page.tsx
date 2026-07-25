@@ -18,7 +18,17 @@ export default function DashboardPage() {
     (best, v, i) => (v > revenueSeries.ggr[best] ? i : best),
     0,
   );
-  const bestDay = revenueSeries.labels[bestIdx];
+  const DAYS: Record<string, string> = {
+    Lun: "Lundi",
+    Mar: "Mardi",
+    Mer: "Mercredi",
+    Jeu: "Jeudi",
+    Ven: "Vendredi",
+    Sam: "Samedi",
+    Dim: "Dimanche",
+  };
+  const bestLabel = revenueSeries.labels[bestIdx];
+  const bestDay = DAYS[bestLabel] ?? bestLabel;
   const bestVal = revenueSeries.ggr[bestIdx];
 
   return (
@@ -36,7 +46,7 @@ export default function DashboardPage() {
               <span className="inline-flex items-center gap-1.5 font-mono text-sm text-sage-up tnum">
                 ▲ {hero.delta}%
               </span>
-              <span className="text-sm text-sage/70">
+              <span className="text-sm text-sage">
                 contre la semaine précédente
               </span>
             </div>
@@ -51,7 +61,7 @@ export default function DashboardPage() {
             <p className="mt-1 font-mono text-lg text-brass tnum">
               {euros(bestVal)}
             </p>
-            <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-widest text-sage/60">
+            <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-widest text-sage/85">
               Clôture provisoire · non arrêtée
             </p>
           </div>
@@ -72,7 +82,7 @@ export default function DashboardPage() {
                 <span className={up ? "text-sage-up" : "text-claret"}>
                   {up ? "▲" : "▼"} {Math.abs(k.delta)}%
                 </span>
-                <span className="ml-2 text-sage/60">{k.hint}</span>
+                <span className="ml-2 text-sage/85">{k.hint}</span>
               </p>
             </div>
           );
@@ -86,7 +96,7 @@ export default function DashboardPage() {
             <h2 className="font-display text-lg font-semibold text-parchment">
               Produit brut, jour par jour
             </h2>
-            <span className="font-mono text-[0.7rem] uppercase tracking-widest text-sage/60">
+            <span className="font-mono text-[0.7rem] uppercase tracking-widest text-sage/85">
               7 derniers jours
             </span>
           </div>
@@ -114,7 +124,7 @@ export default function DashboardPage() {
             <h2 className="font-display text-lg font-semibold text-parchment">
               Mises par jeu
             </h2>
-            <span className="font-mono text-[0.7rem] uppercase tracking-widest text-sage/60">
+            <span className="font-mono text-[0.7rem] uppercase tracking-widest text-sage/85">
               Volume misé
             </span>
           </div>
@@ -132,14 +142,14 @@ export default function DashboardPage() {
           <ul className="space-y-3.5">
             {topGames.map((g, i) => (
               <li key={g.game} className="flex items-center gap-3">
-                <span className="font-mono text-xs text-sage/50 tnum">
+                <span className="font-mono text-xs text-sage/80 tnum">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-parchment">
                     {g.game}
                   </p>
-                  <p className="font-mono text-[0.7rem] uppercase tracking-wide text-sage/60">
+                  <p className="font-mono text-[0.7rem] uppercase tracking-wide text-sage/85">
                     {g.category}
                   </p>
                 </div>
@@ -164,10 +174,64 @@ export default function DashboardPage() {
         <h2 className="mb-4 font-display text-lg font-semibold text-parchment">
           Registre des jeux
         </h2>
-        <div className="overflow-x-auto">
+        {/* Mobile : fiches empilées, lisibles sans défilement horizontal */}
+        <ul className="space-y-3 sm:hidden">
+          {topGames.map((g) => (
+            <li key={g.game} className="border border-baize-line/70 p-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-parchment">{g.game}</p>
+                  <p className="font-mono text-[0.65rem] uppercase tracking-wide text-sage">
+                    {g.category}
+                  </p>
+                </div>
+                <span
+                  className={`inline-flex shrink-0 items-center gap-1.5 font-mono text-[0.65rem] uppercase tracking-wide ${
+                    g.status === "live" ? "text-sage-up" : "text-brass-dim"
+                  }`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 ${
+                      g.status === "live" ? "bg-sage-up" : "bg-brass-dim"
+                    }`}
+                  />
+                  {g.status === "live" ? "En salle" : "Maint."}
+                </span>
+              </div>
+              <dl className="mt-3 grid grid-cols-3 gap-2 border-t border-baize-line/60 pt-3 font-mono tnum">
+                <div>
+                  <dt className="text-[0.6rem] uppercase tracking-wide text-sage">
+                    Mises
+                  </dt>
+                  <dd className="mt-0.5 text-sm text-parchment">{g.bets}</dd>
+                </div>
+                <div>
+                  <dt className="text-[0.6rem] uppercase tracking-wide text-sage">
+                    PBJ
+                  </dt>
+                  <dd className="mt-0.5 text-sm text-brass">{g.ggr}</dd>
+                </div>
+                <div>
+                  <dt className="text-[0.6rem] uppercase tracking-wide text-sage">
+                    Reversement
+                  </dt>
+                  <dd className="mt-0.5 text-sm text-parchment">{g.rtp}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
+
+        {/* Desktop : tableau-registre, défilable et focusable au clavier */}
+        <div
+          className="hidden overflow-x-auto sm:block"
+          tabIndex={0}
+          role="region"
+          aria-label="Registre détaillé des jeux"
+        >
           <table className="w-full min-w-[640px] text-sm">
             <thead>
-              <tr className="border-b border-baize-line text-left font-mono text-[0.68rem] uppercase tracking-widest text-sage/70">
+              <tr className="border-b border-baize-line text-left font-mono text-[0.68rem] uppercase tracking-widest text-sage">
                 <th className="py-2.5 pr-4 font-medium">Jeu</th>
                 <th className="py-2.5 pr-4 font-medium">Catégorie</th>
                 <th className="py-2.5 pr-4 text-right font-medium">Mises</th>

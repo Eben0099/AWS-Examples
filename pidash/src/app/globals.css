@@ -14,7 +14,7 @@
   --brass-dim: #9c7d3c;
   --parchment: #ece3cc; /* ivoire — texte principal */
   --parchment-dim: #c9c1a8;
-  --sage: #7fb79a; /* vert tapis clair — texte secondaire */
+  --sage: #9eccb2; /* vert tapis clair — texte secondaire (AA sur feutre) */
   --sage-up: #6fc08a; /* hausse */
   --claret: #cf6b7c; /* rouge carte — baisse */
   --ink: #0a1c16;
@@ -132,4 +132,11 @@ body {
 ::selection {
   background: rgba(200, 160, 78, 0.28);
   color: var(--parchment);
+}
+
+/* Focus clavier visible et cohérent avec la palette (laiton) */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
