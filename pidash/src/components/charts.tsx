@@ -28,19 +28,35 @@ ChartJS.register(
   Filler,
 );
 
-const GOLD = "#f5c451";
-const EMERALD = "#34d399";
-const GRID = "rgba(255,255,255,0.06)";
-const TICK = "#8b93a7";
+// Palette « Pit Ledger »
+const BRASS = "#c8a04e";
+const SAGE = "#7fb79a";
+const PARCHMENT = "#ece3cc";
+const CLARET = "#cf6b7c";
+const FELT = "#123a2e";
+const GRID = "rgba(236,227,204,0.07)";
+const TICK = "rgba(127,183,154,0.75)";
 
 ChartJS.defaults.color = TICK;
 ChartJS.defaults.font.family =
-  "var(--font-geist-sans), Arial, Helvetica, sans-serif";
+  "var(--font-spline-mono), ui-monospace, monospace";
+ChartJS.defaults.font.size = 11;
 
-const axisScales = {
-  x: { grid: { color: GRID }, ticks: { color: TICK } },
+const tooltip = {
+  backgroundColor: "#0b271f",
+  borderColor: "rgba(200,160,78,0.4)",
+  borderWidth: 1,
+  titleColor: PARCHMENT,
+  bodyColor: PARCHMENT,
+  padding: 10,
+  cornerRadius: 2,
+};
+
+const numericScales = {
+  x: { grid: { display: false }, ticks: { color: TICK } },
   y: {
     grid: { color: GRID },
+    border: { display: false },
     ticks: {
       color: TICK,
       callback: (v: string | number) =>
@@ -54,30 +70,33 @@ export function RevenueChart() {
     labels: revenueSeries.labels,
     datasets: [
       {
-        label: "GGR (€)",
+        label: "PBJ (€)",
         data: revenueSeries.ggr,
-        borderColor: GOLD,
+        borderColor: BRASS,
         backgroundColor: (ctx: { chart: ChartJS }) => {
           const { ctx: c, chartArea } = ctx.chart;
-          if (!chartArea) return "rgba(245,196,81,0.15)";
+          if (!chartArea) return "rgba(200,160,78,0.12)";
           const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          g.addColorStop(0, "rgba(245,196,81,0.35)");
-          g.addColorStop(1, "rgba(245,196,81,0)");
+          g.addColorStop(0, "rgba(200,160,78,0.28)");
+          g.addColorStop(1, "rgba(200,160,78,0)");
           return g;
         },
         fill: true,
-        tension: 0.4,
+        tension: 0.35,
         borderWidth: 2,
-        pointRadius: 3,
-        pointBackgroundColor: GOLD,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: BRASS,
+        pointHoverBorderColor: FELT,
       },
     ],
   };
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: axisScales,
+    interaction: { intersect: false, mode: "index" },
+    plugins: { legend: { display: false }, tooltip },
+    scales: numericScales,
   };
   return <Line data={data} options={options} />;
 }
@@ -89,18 +108,18 @@ export function BetsByGameChart() {
       {
         label: "Mises (€)",
         data: betsByGame.values,
-        backgroundColor: "rgba(52,211,153,0.65)",
-        hoverBackgroundColor: EMERALD,
-        borderRadius: 6,
-        maxBarThickness: 42,
+        backgroundColor: "rgba(127,183,154,0.55)",
+        hoverBackgroundColor: SAGE,
+        borderRadius: 2,
+        maxBarThickness: 40,
       },
     ],
   };
   const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: axisScales,
+    plugins: { legend: { display: false }, tooltip },
+    scales: numericScales,
   };
   return <Bar data={data} options={options} />;
 }
@@ -111,8 +130,8 @@ export function GameMixChart() {
     datasets: [
       {
         data: gameMix.values,
-        backgroundColor: ["#f5c451", "#34d399", "#60a5fa", "#fb7185"],
-        borderColor: "#10141f",
+        backgroundColor: [BRASS, SAGE, PARCHMENT, CLARET],
+        borderColor: FELT,
         borderWidth: 3,
         hoverOffset: 6,
       },
@@ -121,11 +140,19 @@ export function GameMixChart() {
   const options: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: "62%",
+    cutout: "64%",
     plugins: {
+      tooltip,
       legend: {
         position: "bottom",
-        labels: { color: TICK, boxWidth: 12, padding: 14, usePointStyle: true },
+        labels: {
+          color: TICK,
+          boxWidth: 10,
+          boxHeight: 10,
+          padding: 14,
+          usePointStyle: true,
+          font: { size: 11 },
+        },
       },
     },
   };

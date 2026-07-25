@@ -5,9 +5,9 @@ export function LogoutButton() {
     <form action="/api/auth/logout" method="post">
       <button
         type="submit"
-        className="rounded-lg border border-border bg-surface-2 px-3 py-1.5 text-sm text-muted transition hover:border-rose/40 hover:text-rose"
+        className="rounded-[2px] border border-baize-line px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-wide text-sage/80 transition hover:border-claret/50 hover:text-claret"
       >
-        Déconnexion
+        Fermer
       </button>
     </form>
   );

@@ -36,7 +36,7 @@ function LoginForm() {
       router.replace(from);
       router.refresh();
     } catch {
-      setError("Erreur réseau. Vérifiez votre connexion.");
+      setError("Réseau indisponible. Vérifiez la connexion.");
     } finally {
       setLoading(false);
     }
@@ -44,113 +44,134 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-dvh items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Marque */}
-        <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-gold to-amber-600 text-lg font-bold text-black shadow-lg shadow-amber-500/20">
-            ♠
-          </div>
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">PiDash</h1>
-            <p className="text-xs text-muted">Console d&apos;exploitation casino</p>
-          </div>
+      <div className="w-full max-w-[26rem] rise">
+        {/* En-tête maison, sur le feutre */}
+        <div className="mb-6 text-center">
+          <p className="eyebrow">Maison de jeu · Salle privée</p>
+          <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-parchment">
+            PiDash
+          </h1>
         </div>
 
+        {/* Le « ticket » : parchemin posé sur le tapis */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-border bg-surface p-6 shadow-2xl shadow-black/40 sm:p-8"
+          className="relative rounded-[3px] bg-parchment text-ink shadow-[0_18px_50px_-12px_rgba(0,0,0,0.6)]"
         >
-          <h2 className="text-lg font-semibold">Connexion</h2>
-          <p className="mt-1 text-sm text-muted">
-            Accédez à votre tableau de bord opérateur.
-          </p>
+          {/* Filet laiton du haut, tranche du ticket */}
+          <div className="h-1 w-full rounded-t-[3px] bg-gradient-to-r from-brass-dim via-brass to-brass-dim" />
 
-          {error && (
-            <div
-              role="alert"
-              className="mt-5 rounded-lg border border-rose/40 bg-rose/10 px-3 py-2 text-sm text-rose"
-            >
-              {error}
+          <div className="p-7 sm:p-8">
+            {/* Ligne de registre : référence + accès */}
+            <div className="flex items-baseline justify-between border-b border-dashed border-ink/25 pb-3">
+              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-ink/55">
+                Bulletin d&apos;accès
+              </span>
+              <span className="font-mono text-[0.7rem] text-ink/45 tnum">
+                Nº PIT·001
+              </span>
             </div>
-          )}
 
-          {/* Email */}
-          <div className="mt-5">
-            <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="vous@casino.com"
-              className="w-full rounded-lg border border-border bg-surface-2 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-muted/60 focus:border-gold/60 focus:ring-2 focus:ring-gold/20"
-            />
-          </div>
+            <h2 className="mt-5 font-display text-2xl font-semibold">
+              Accès à la salle
+            </h2>
+            <p className="mt-1 text-sm text-ink/60">
+              Identifiez-vous pour ouvrir le registre.
+            </p>
 
-          {/* Mot de passe */}
-          <div className="mt-4">
-            <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
-              Mot de passe
-            </label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full rounded-lg border border-border bg-surface-2 px-3.5 py-2.5 pr-16 text-sm outline-none transition placeholder:text-muted/60 focus:border-gold/60 focus:ring-2 focus:ring-gold/20"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-xs font-medium text-muted transition hover:text-foreground"
+            {error && (
+              <div
+                role="alert"
+                className="mt-5 border-l-2 border-claret bg-claret/10 px-3 py-2 text-sm text-[#8f2d3d]"
               >
-                {showPassword ? "Cacher" : "Afficher"}
-              </button>
-            </div>
-          </div>
-
-          {/* Options */}
-          <div className="mt-4 flex items-center justify-between">
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-muted">
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-                className="h-4 w-4 rounded border-border bg-surface-2 accent-gold"
-              />
-              Se souvenir de moi
-            </label>
-            <a href="#" className="text-sm text-gold hover:underline">
-              Mot de passe oublié ?
-            </a>
-          </div>
-
-          <button
-            type="submit"
-            disabled={!canSubmit}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-gold to-amber-600 px-4 py-2.5 text-sm font-semibold text-black shadow-lg shadow-amber-500/20 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading && (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
+                {error}
+              </div>
             )}
-            {loading ? "Connexion…" : "Se connecter"}
-          </button>
 
-          {/* Aide démo */}
-          <p className="mt-5 rounded-lg bg-surface-2 px-3 py-2 text-center text-xs text-muted">
-            Démo · <span className="font-mono text-foreground">admin@pidash.io</span>{" "}
-            / <span className="font-mono text-foreground">casino123</span>
-          </p>
+            {/* Email — champ de registre, souligné */}
+            <div className="mt-6">
+              <label
+                htmlFor="email"
+                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/55"
+              >
+                Adresse
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="vous@maison.jeu"
+                className="w-full border-0 border-b border-ink/30 bg-transparent px-0 py-2 text-[0.95rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-brass-dim"
+              />
+            </div>
+
+            {/* Mot de passe */}
+            <div className="mt-5">
+              <label
+                htmlFor="password"
+                className="mb-1 block font-mono text-[0.7rem] uppercase tracking-widest text-ink/55"
+              >
+                Clé
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full border-0 border-b border-ink/30 bg-transparent px-0 py-2 pr-14 text-[0.95rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-brass-dim"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.7rem] uppercase tracking-wide text-ink/50 transition hover:text-ink"
+                >
+                  {showPassword ? "Masquer" : "Voir"}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center justify-between text-sm">
+              <label className="flex cursor-pointer items-center gap-2 text-ink/70">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                  className="h-4 w-4 accent-[#123a2e]"
+                />
+                Garder la session
+              </label>
+              <a href="#" className="text-[#8a6d2e] underline-offset-2 hover:underline">
+                Clé oubliée ?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              disabled={!canSubmit}
+              className="mt-7 flex w-full items-center justify-center gap-2 rounded-[2px] bg-baize px-4 py-3 font-mono text-sm uppercase tracking-widest text-parchment transition hover:bg-baize-deep disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              {loading && (
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-parchment/30 border-t-parchment" />
+              )}
+              {loading ? "Ouverture…" : "Ouvrir le registre"}
+            </button>
+
+            {/* Jeton d'essai */}
+            <p className="mt-5 border-t border-dashed border-ink/20 pt-4 text-center text-xs text-ink/55">
+              Jeton d&apos;essai —{" "}
+              <span className="font-mono text-ink">admin@pidash.io</span> ·{" "}
+              <span className="font-mono text-ink">casino123</span>
+            </p>
+          </div>
         </form>
 
-        <p className="mt-6 text-center text-xs text-muted">
-          © 2026 PiDash. Jeu responsable · +18 ans.
+        <p className="mt-6 text-center font-mono text-[0.7rem] uppercase tracking-widest text-sage/70">
+          Jeu responsable · Réservé aux +18 ans
         </p>
       </div>
     </div>

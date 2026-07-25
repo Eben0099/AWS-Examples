@@ -1,48 +1,135 @@
 @import "tailwindcss";
 
+/* ————————————————————————————————————————————————
+   PiDash — « The Pit Ledger »
+   Maison de jeu classique × registre de caisse.
+   Feutre de table, laiton, parchemin. Pas de néon.
+———————————————————————————————————————————————— */
+
 :root {
-  --background: #0a0d14;
-  --surface: #10141f;
-  --surface-2: #161c2b;
-  --border: #232b3d;
-  --foreground: #e7eaf3;
-  --muted: #8b93a7;
-  --gold: #f5c451;
-  --emerald: #34d399;
-  --rose: #fb7185;
+  --baize-deep: #0b271f; /* feutre sombre — fond appli */
+  --baize: #123a2e; /* feutre — panneaux */
+  --baize-line: #2c5041; /* filet feutre */
+  --brass: #c8a04e; /* laiton — accent, chiffres clés */
+  --brass-dim: #9c7d3c;
+  --parchment: #ece3cc; /* ivoire — texte principal */
+  --parchment-dim: #c9c1a8;
+  --sage: #7fb79a; /* vert tapis clair — texte secondaire */
+  --sage-up: #6fc08a; /* hausse */
+  --claret: #cf6b7c; /* rouge carte — baisse */
+  --ink: #0a1c16;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-gold: var(--gold);
-  --color-emerald: var(--emerald);
-  --color-rose: var(--rose);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-baize-deep: var(--baize-deep);
+  --color-baize: var(--baize);
+  --color-baize-line: var(--baize-line);
+  --color-brass: var(--brass);
+  --color-brass-dim: var(--brass-dim);
+  --color-parchment: var(--parchment);
+  --color-parchment-dim: var(--parchment-dim);
+  --color-sage: var(--sage);
+  --color-sage-up: var(--sage-up);
+  --color-claret: var(--claret);
+  --color-ink: var(--ink);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-instrument);
+  --font-mono: var(--font-spline-mono);
 }
 
 html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background-color: var(--baize-deep);
+  color: var(--parchment);
+  font-family: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Thin dark scrollbars */
+/* Texture feutre : grain fin + halo laiton discret en haut */
+body {
+  background-image:
+    radial-gradient(
+      900px 520px at 100% -8%,
+      rgba(200, 160, 78, 0.07),
+      transparent 62%
+    ),
+    radial-gradient(
+      circle at 1px 1px,
+      rgba(236, 227, 204, 0.022) 1px,
+      transparent 0
+    );
+  background-size: auto, 4px 4px;
+  background-attachment: fixed;
+}
+
+/* Chiffres de registre : tabulaires, alignés en colonnes */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Eyebrow / libellés de registre en petites capitales espacées */
+.eyebrow {
+  font-family: var(--font-instrument), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--brass);
+}
+
+/* Filet laiton fin, comme un trait de plume sur le registre */
+.brass-rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--brass) 0%,
+    var(--brass-dim) 45%,
+    transparent 100%
+  );
+}
+
+/* Panneau feutre bordé d'un filet */
+.pit-panel {
+  background: var(--baize);
+  border: 1px solid var(--baize-line);
+}
+
+/* Révélation douce au chargement (respecte reduced-motion) */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
+
+/* Scrollbars discrètes, teinte feutre */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--baize-line) transparent;
 }
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
 *::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--baize-line);
   border-radius: 9999px;
+}
+
+::selection {
+  background: rgba(200, 160, 78, 0.28);
+  color: var(--parchment);
 }

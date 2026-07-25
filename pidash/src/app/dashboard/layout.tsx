@@ -3,12 +3,12 @@ import { getSession } from "@/lib/auth";
 import { LogoutButton } from "@/components/logout-button";
 
 const NAV = [
-  { label: "Vue d'ensemble", icon: "▨", href: "/dashboard", active: true },
-  { label: "Jeux", icon: "♠", href: "#" },
-  { label: "Joueurs", icon: "◍", href: "#" },
-  { label: "Transactions", icon: "€", href: "#" },
-  { label: "Rapports", icon: "▤", href: "#" },
-  { label: "Paramètres", icon: "⚙", href: "#" },
+  { label: "Registre", href: "/dashboard", active: true },
+  { label: "Tables & machines", href: "#" },
+  { label: "Joueurs", href: "#" },
+  { label: "Caisse", href: "#" },
+  { label: "Rapports", href: "#" },
+  { label: "Réglages", href: "#" },
 ];
 
 export default async function DashboardLayout({
@@ -20,63 +20,78 @@ export default async function DashboardLayout({
   if (!user) redirect("/login");
 
   const initials = user.name.slice(0, 2).toUpperCase();
+  const today = new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
 
   return (
     <div className="flex min-h-dvh">
-      {/* Sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-border bg-surface md:flex">
-        <div className="flex items-center gap-3 border-b border-border px-5 py-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-gold to-amber-600 font-bold text-black">
-            ♠
-          </div>
-          <div>
-            <p className="text-sm font-semibold leading-tight">PiDash</p>
-            <p className="text-[11px] text-muted">Casino Console</p>
-          </div>
+      {/* Rail — la « cage » */}
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-baize-line bg-baize md:flex">
+        <div className="border-b border-baize-line px-5 py-5">
+          <p className="eyebrow">Maison de jeu</p>
+          <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-parchment">
+            PiDash
+          </p>
         </div>
-        <nav className="flex-1 space-y-1 p-3">
+
+        <nav className="flex-1 px-3 py-4">
           {NAV.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+              className={`group flex items-center gap-3 px-3 py-2.5 font-mono text-[0.8rem] uppercase tracking-wide transition ${
                 item.active
-                  ? "bg-surface-2 font-medium text-foreground"
-                  : "text-muted hover:bg-surface-2 hover:text-foreground"
+                  ? "text-parchment"
+                  : "text-sage/70 hover:text-parchment"
               }`}
             >
-              <span className="w-4 text-center text-gold">{item.icon}</span>
+              <span
+                className={`h-4 w-[2px] transition ${
+                  item.active
+                    ? "bg-brass"
+                    : "bg-transparent group-hover:bg-baize-line"
+                }`}
+              />
               {item.label}
             </a>
           ))}
         </nav>
-        <div className="border-t border-border p-3 text-[11px] text-muted">
-          Jeu responsable · +18 ans
+
+        <div className="border-t border-baize-line px-5 py-4">
+          <p className="font-mono text-[0.65rem] uppercase tracking-widest text-sage/60">
+            Jeu responsable · +18
+          </p>
         </div>
       </aside>
 
       {/* Contenu */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-border bg-surface/70 px-5 py-3 backdrop-blur">
+        <header className="flex items-end justify-between gap-4 border-b border-baize-line px-6 py-4">
           <div>
-            <h1 className="text-base font-semibold">Vue d&apos;ensemble</h1>
-            <p className="text-xs text-muted">
-              Activité en temps quasi réel · dernières 24 h
-            </p>
+            <p className="eyebrow">Registre du jour</p>
+            <h1 className="mt-0.5 font-display text-xl font-semibold capitalize text-parchment">
+              {today}
+            </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium leading-tight">{user.name}</p>
-              <p className="text-xs text-muted">{user.email}</p>
+              <p className="text-sm font-medium leading-tight text-parchment">
+                {user.name}
+              </p>
+              <p className="font-mono text-[0.7rem] text-sage/70">{user.email}</p>
             </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-2 text-sm font-semibold text-gold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-brass/50 font-mono text-xs font-semibold text-brass">
               {initials}
             </div>
             <LogoutButton />
           </div>
         </header>
 
-        <main className="flex-1 p-5">{children}</main>
+        <main className="flex-1 px-6 py-6">{children}</main>
       </div>
     </div>
   );
